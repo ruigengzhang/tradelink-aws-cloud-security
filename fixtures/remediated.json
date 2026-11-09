@@ -1,0 +1,59 @@
+{
+  "schema_version": 1,
+  "account_public_access_block": {
+    "BlockPublicAcls": false,
+    "IgnorePublicAcls": false,
+    "BlockPublicPolicy": false,
+    "RestrictPublicBuckets": false
+  },
+  "s3_buckets": [
+    {
+      "id": "tradelink-trade-documents",
+      "public_access_block": {
+        "BlockPublicAcls": true,
+        "IgnorePublicAcls": true,
+        "BlockPublicPolicy": true,
+        "RestrictPublicBuckets": true
+      }
+    },
+    {
+      "id": "tradelink-audit-archive",
+      "public_access_block": {
+        "BlockPublicAcls": true,
+        "IgnorePublicAcls": true,
+        "BlockPublicPolicy": true,
+        "RestrictPublicBuckets": true
+      }
+    }
+  ],
+  "iam_policies": [
+    {
+      "id": "TradeDocumentsWorker",
+      "Statement": [
+        {
+          "Effect": "Allow",
+          "Action": [
+            "s3:GetObject",
+            "s3:PutObject"
+          ],
+          "Resource": "arn:aws:s3:::tradelink-trade-documents/incoming/*"
+        }
+      ]
+    }
+  ],
+  "security_groups": [
+    {
+      "id": "sg-demo-trade-worker",
+      "ingress": [
+        {
+          "protocol": "tcp",
+          "from_port": 443,
+          "to_port": 443,
+          "sources": [
+            "10.20.0.0/16"
+          ]
+        }
+      ]
+    }
+  ]
+}
